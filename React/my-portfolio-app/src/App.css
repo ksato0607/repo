@@ -37,6 +37,10 @@
   height: 100%;
 }
 
+.projects-grid {
+  display: flex;
+}
+
 .avatar-img {
   width: 250px;
   padding-top: 5em;
