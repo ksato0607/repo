@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites errors="1"
+            failures="0"
+            tests="0">
+
+  <testsuite name="demoTest"
+    errors="1" failures="0" hostname="" id="" package="demoTest" skipped="1"
+    tests="0" time="0.000" timestamp="">
+  
+
+  
+    <system-err>
+        Error: An error occurred while retrieving a new session: &#34;Unable to create new service: GeckoDriverService&#34;
+       at endReadableNT (_stream_readable.js:1145:12)
+    </system-err>
+  
+
+    
+    <error message="An error occurred while retrieving a new session: &#34;Unable to create new service: GeckoDriverService&#34;"><![CDATA[
+      Error: An error occurred while retrieving a new session: &#34;Unable to create new service: GeckoDriverService&#34;
+    at SeleniumProtocol.handleSessionCreateError (/usr/local/lib/node_modules/nightwatch/lib/transport/transport.js:103:15)
+    at HttpRequest.request.on.err (/usr/local/lib/node_modules/nightwatch/lib/transport/transport.js:158:32)
+    at HttpRequest.emit (events.js:198:13)
+    at HttpResponse.originalIssuer.on.args (/usr/local/lib/node_modules/nightwatch/lib/http/request.js:131:19)
+    at HttpResponse.emit (events.js:198:13)
+    at IncomingMessage.res.on (/usr/local/lib/node_modules/nightwatch/lib/http/response.js:60:14)
+    at IncomingMessage.emit (events.js:203:15)
+    at endReadableNT (_stream_readable.js:1145:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19)
+      ]]></error>  
+
+  
+    
+    <testcase
+      name="Home Page header is present" classname="demoTest">
+      <skipped />
+    </testcase>
+    
+  
+  </testsuite>
+</testsuites>
