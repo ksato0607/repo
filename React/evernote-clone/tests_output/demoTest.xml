@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites errors="1"
+            failures="0"
+            tests="0">
+
+  <testsuite name="demoTest"
+    errors="1" failures="0" hostname="" id="" package="demoTest" skipped="1"
+    tests="0" time="0.000" timestamp="">
+  
+
+  
+    <system-err>
+        Error: An error occurred while retrieving a new session: &#34;socket hang up&#34;
+       at Socket.socketCloseListener (_http_client.js:364:11)
+    </system-err>
+  
+
+    
+    <error message="An error occurred while retrieving a new session: &#34;socket hang up&#34;"><![CDATA[
+      Error: An error occurred while retrieving a new session: &#34;socket hang up&#34;
+    at JsonWireProtocol.handleSessionCreateError (/usr/local/lib/node_modules/nightwatch/lib/transport/transport.js:103:15)
+    at HttpRequest.request.on.err (/usr/local/lib/node_modules/nightwatch/lib/transport/transport.js:158:32)
+    at HttpRequest.emit (events.js:198:13)
+    at ClientRequest.originalIssuer.on.args (/usr/local/lib/node_modules/nightwatch/lib/http/request.js:131:19)
+    at ClientRequest.emit (events.js:203:15)
+    at Socket.socketCloseListener (_http_client.js:364:11)
+    at Socket.emit (events.js:203:15)
+    at TCP._handle.close (net.js:606:12)
+      ]]></error>  
+
+  
+    
+    <testcase
+      name="Home Page header is present" classname="demoTest">
+      <skipped />
+    </testcase>
+    
+  
+  </testsuite>
+</testsuites>
