@@ -1,0 +1,23 @@
+{
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-weatherapiapp-dev-184358-authRole",
+            "UnauthRoleArn": "arn:aws:iam::676479517339:role/amplify-weatherapiapp-dev-184358-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::676479517339:role/amplify-weatherapiapp-dev-184358-authRole",
+            "Region": "ap-northeast-1",
+            "DeploymentBucketName": "amplify-weatherapiapp-dev-184358-deployment",
+            "UnauthRoleName": "amplify-weatherapiapp-dev-184358-unauthRole",
+            "StackName": "amplify-weatherapiapp-dev-184358",
+            "StackId": "arn:aws:cloudformation:ap-northeast-1:676479517339:stack/amplify-weatherapiapp-dev-184358/b7567ce0-c1c8-11ea-8ba3-0e3b3e43d478",
+            "AmplifyAppId": "d2b6sxqacc75n6"
+        },
+        "categories": {
+            "hosting": {
+                "amplifyhosting": {
+                    "appId": "d2b6sxqacc75n6",
+                    "type": "manual"
+                }
+            }
+        }
+    }
+}
