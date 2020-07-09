@@ -1,8 +1,9 @@
-/** 
+/**
  * Follow this tutorial https://www.youtube.com/watch?v=GuA0_Z1llYU
  */
 import React, { useState } from "react";
 import apiConfig from "./config";
+const axios = require("axios");
 const moment = require("moment");
 
 function App() {
@@ -11,12 +12,12 @@ function App() {
 
   const search = evt => {
     if (evt.key === "Enter") {
-      fetch(
-        `${apiConfig.base}weather?q=${query}&units=metric&APPID=${apiConfig.key}`
-      )
-        .then(response => response.json())
+      axios
+        .get(
+          `${apiConfig.base}weather?q=${query}&units=metric&APPID=${apiConfig.key}`
+        )
         .then(result => {
-          setWeather(result);
+          setWeather(result.data);
           setQuery("");
         });
     }
