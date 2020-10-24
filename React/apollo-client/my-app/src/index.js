@@ -5,9 +5,11 @@ import {
   InMemoryCache,
   ApolloProvider,
   useQuery,
+  NetworkStatus,
 } from '@apollo/client';
 import { GET_DOGS } from './graphql/GET_DOGS';
 import { GET_DOG_PHOTO } from './graphql/GET_DOG_PHOTO';
+import { useState } from 'react';
 
 const client = new ApolloClient({
   uri: 'https://71z1g.sse.codesandbox.io/',
@@ -32,28 +34,42 @@ function Dogs({ onDogSelected }) {
 }
 
 function DogPhoto({ breed }) {
-  const { loading, error, data } = useQuery(GET_DOG_PHOTO, {
-    variables: { breed },
-  });
+  const { loading, error, data, refetch, networkStatus } = useQuery(
+    GET_DOG_PHOTO,
+    {
+      variables: { breed },
+      notifyOnNetworkStatusChange: true,
+    }
+  );
 
+  if (networkStatus === NetworkStatus.refetch) return 'Refetching!';
   if (loading) return null;
   if (error) return `Error! ${error}`;
 
   return (
-    <img
-      src={data.dog.displayImage}
-      alt={breed}
-      style={{ height: 100, width: 100 }}
-    />
+    <div>
+      <img
+        src={data.dog.displayImage}
+        alt={breed}
+        style={{ height: 100, width: 100 }}
+      />
+      <button onClick={() => refetch()}>Refetch!</button>
+    </div>
   );
 }
 
 function App() {
+  const [selectedDog, setSelectedDog] = useState(null);
+
+  function onDogSelected({ target }) {
+    setSelectedDog(target.value);
+  }
+
   return (
     <ApolloProvider client={client}>
       <dir>
-        <Dogs />
-        <DogPhoto breed={'dane'} />
+        <Dogs onDogSelected={onDogSelected} />
+        {selectedDog && <DogPhoto breed={selectedDog} />}
       </dir>
     </ApolloProvider>
   );
