@@ -5,7 +5,8 @@ import { Dog } from './components/Dog';
 import { Todo } from './components/Todo';
 
 const client = new ApolloClient({
-  uri: 'https://71z1g.sse.codesandbox.io/',
+  // uri: 'https://71z1g.sse.codesandbox.io/', // Dog
+  uri: 'https://sxewr.sse.codesandbox.io/', // Todo
   cache: new InMemoryCache(),
 });
 
@@ -13,7 +14,7 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <dir>
-        <Dog />
+        {/* <Dog /> */}
         <Todo />
       </dir>
     </ApolloProvider>
