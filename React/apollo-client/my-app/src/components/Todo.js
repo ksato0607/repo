@@ -28,11 +28,16 @@ function AddTodo() {
 }
 
 function TodoList() {
-  const { loading, error, data } = useQuery(GET_TODOS);
-  const [updateTodo] = useMutation(UPDATE_TODO);
+  const { loading: queryLoading, error: queryError, data } = useQuery(
+    GET_TODOS
+  );
+  const [
+    updateTodo,
+    { loading: mutationLoading, error: mutationError },
+  ] = useMutation(UPDATE_TODO);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error :(</p>;
+  if (queryLoading) return <p>Loading...</p>;
+  if (queryError) return <p>Error :(</p>;
 
   return data.todos.map(({ id, type }) => {
     let input;
