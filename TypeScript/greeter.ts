@@ -1,7 +1,23 @@
-function greeter(person: string) {
-    return "Hello, " + person;
+class Student {
+    fullName: string;
+    constructor(
+        public firstName: string,
+        public middleInitial: string,
+        public lastName: string,
+    ) {
+        this.fullName = `${firstName} ${middleInitial} ${lastName}`
+    }
 }
 
-const user = "Jane User";
+interface Person {
+    firstName: string,
+    lastName: string,
+}
+
+function greeter(user: Person) {
+    return `Hello, ${user.firstName} ${user.lastName}`;
+}
+
+const user = new Student('Jane', 'M', 'User');
 
 document.body.textContent = greeter(user);
