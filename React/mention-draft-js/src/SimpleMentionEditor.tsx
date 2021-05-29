@@ -1,10 +1,4 @@
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-  ReactElement,
-} from "react";
+import React, { useCallback, useMemo, useState, ReactElement } from "react";
 import {
   EditorState,
   convertToRaw,
@@ -18,10 +12,17 @@ import createMentionPlugin, {
 import editorStyles from "./SimpleMentionEditor.module.css";
 import mentions from "./Mentions";
 import "@draft-js-plugins/mention/lib/plugin.css";
-import { MentionData } from "@draft-js-plugins/mention";
+
+const notifyUsers = (content) => {
+  const entityMap = content.entityMap;
+  Object.keys(entityMap).forEach((index) => {
+    console.log(
+      `Sending notification to ${entityMap[index].data.mention.name}`
+    );
+  });
+};
 
 export default function SimpleMentionEditor(): ReactElement {
-  const ref = useRef<Editor>(null);
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty()
   );
@@ -45,9 +46,6 @@ export default function SimpleMentionEditor(): ReactElement {
   const onSearchChange = useCallback(({ value }: { value: string }) => {
     setSuggestions(defaultSuggestionsFilter(value, mentions));
   }, []);
-  const onAddMention = useCallback((mention: MentionData) => {
-    // console.log(mention);
-  }, []);
 
   function findLinkEntities(contentBlock, callback, contentState) {
     contentBlock.findEntityRanges((character) => {
@@ -64,7 +62,6 @@ export default function SimpleMentionEditor(): ReactElement {
     const { link } = props.contentState
       .getEntity(props.entityKey)
       .getData().mention;
-    console.log("link", link);
 
     return (
       <a href={link} style={{ textDecoration: "none" }}>
@@ -84,12 +81,9 @@ export default function SimpleMentionEditor(): ReactElement {
     let contentState = EditorState.createEmpty(decorator);
     if (contentSaved) {
       contentState = contentSaved;
-      console.log("contentSaved", JSON.parse(contentSaved));
       const content = convertFromRaw(JSON.parse(contentSaved));
-      console.log("content", content);
 
       contentState = EditorState.createWithContent(content, decorator);
-      console.log("contentState", contentState);
     }
 
     return (
@@ -101,15 +95,6 @@ export default function SimpleMentionEditor(): ReactElement {
         />
       </div>
     );
-  };
-
-  const notifyUsers = (content) => {
-    const entityMap = content.entityMap;
-    Object.keys(entityMap).forEach((index) => {
-      console.log(
-        `Sending notification to ${entityMap[index].data.mention.name}`
-      );
-    });
   };
 
   return (
@@ -125,7 +110,6 @@ export default function SimpleMentionEditor(): ReactElement {
             editorState={editorState}
             onChange={setEditorState}
             plugins={plugins}
-            ref={ref}
           />
         )}
         {!isEditable && <ReadOnlyEditor />}
@@ -135,16 +119,12 @@ export default function SimpleMentionEditor(): ReactElement {
           onOpenChange={onOpenChange}
           suggestions={suggestions}
           onSearchChange={onSearchChange}
-          onAddMention={onAddMention}
         />
         <button
           style={{ width: "70px" }}
           onClick={() => {
-            console.log("editorState", editorState);
             const editorContent = editorState.getCurrentContent();
-            console.log("editorContent", editorContent);
             const contentJson = convertToRaw(editorContent);
-            console.log("contentJson", contentJson);
             setContentSaved(JSON.stringify(contentJson));
             setIsEditable(false);
             notifyUsers(contentJson);
