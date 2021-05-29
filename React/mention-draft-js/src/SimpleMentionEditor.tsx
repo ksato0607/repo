@@ -28,6 +28,7 @@ export default function SimpleMentionEditor(): ReactElement {
   const [open, setOpen] = useState(false);
   const [suggestions, setSuggestions] = useState(mentions);
   const [contentSaved, setContentSaved] = useState("");
+  const [isEditable, setIsEditable] = useState(true);
 
   const { MentionSuggestions, plugins } = useMemo(() => {
     const mentionPlugin = createMentionPlugin();
@@ -65,7 +66,11 @@ export default function SimpleMentionEditor(): ReactElement {
       .getData().mention;
     console.log("link", link);
 
-    return <a href={link}>{props.children}</a>;
+    return (
+      <a href={link} style={{ textDecoration: "none" }}>
+        {props.children}
+      </a>
+    );
   };
 
   const decorator = new CompositeDecorator([
@@ -98,22 +103,33 @@ export default function SimpleMentionEditor(): ReactElement {
     );
   };
 
+  const notifyUsers = (content) => {
+    const entityMap = content.entityMap;
+    Object.keys(entityMap).forEach((index) => {
+      console.log(
+        `Sending notification to ${entityMap[index].data.mention.name}`
+      );
+    });
+  };
+
   return (
     <div>
       <p style={{ margin: "auto", marginTop: "2rem", width: "50%" }}>Editor</p>
       <div
         className={editorStyles.editor}
-        onClick={() => {
-          ref.current!.focus();
-        }}
+        style={{ backgroundColor: isEditable ? "#fff" : "rgba(220,220,220,1)" }}
       >
-        <Editor
-          editorKey={"editor"}
-          editorState={editorState}
-          onChange={setEditorState}
-          plugins={plugins}
-          ref={ref}
-        />
+        {isEditable && (
+          <Editor
+            editorKey={"editor"}
+            editorState={editorState}
+            onChange={setEditorState}
+            plugins={plugins}
+            ref={ref}
+          />
+        )}
+        {!isEditable && <ReadOnlyEditor />}
+
         <MentionSuggestions
           open={open}
           onOpenChange={onOpenChange}
@@ -130,17 +146,33 @@ export default function SimpleMentionEditor(): ReactElement {
             const contentJson = convertToRaw(editorContent);
             console.log("contentJson", contentJson);
             setContentSaved(JSON.stringify(contentJson));
+            setIsEditable(false);
+            notifyUsers(contentJson);
             console.log("Saved!");
           }}
         >
           Save
         </button>
-      </div>
-      <p style={{ margin: "auto", marginTop: "2rem", width: "50%" }}>
-        Saved content
-      </p>
-      <div className={editorStyles.editor}>
-        <ReadOnlyEditor />
+        <button
+          style={{ width: "70px", marginLeft: "10px" }}
+          onClick={() => {
+            setEditorState(editorState);
+            setIsEditable(true);
+            console.log("Edit!");
+          }}
+        >
+          Edit
+        </button>
+        <button
+          style={{ width: "70px", marginLeft: "10px" }}
+          onClick={() => {
+            setEditorState(EditorState.createEmpty());
+            setIsEditable(true);
+            console.log("Clear!");
+          }}
+        >
+          Clear
+        </button>
       </div>
     </div>
   );
